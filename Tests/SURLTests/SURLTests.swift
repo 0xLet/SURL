@@ -2,14 +2,14 @@ import XCTest
 @testable import SURL
 
 final class SURLTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(SURL().text, "Hello, World!")
+    func testStringURLInit() {
+        XCTAssertEqual(
+            URL(string: "https://something.com:8080")?.host,
+            "https://something.com:8080".url?.host
+        )
     }
-
+    
     static var allTests = [
-        ("testExample", testExample),
+        ("testStringURLInit", testStringURLInit),
     ]
 }
