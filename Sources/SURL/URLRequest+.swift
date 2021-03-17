@@ -29,13 +29,16 @@ public extension URLRequest {
         URLSession.shared.dataTask(with: self)
     }
     
-    @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-    var dataTaskPublisher: URLSession.DataTaskPublisher {
-        URLSession.shared.dataTaskPublisher(for: self)
-    }
-    
-    
     func dataTask(withHandler handler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         URLSession.shared.dataTask(with: self, completionHandler: handler)
     }
 }
+
+#if canImport(Combine)
+public extension URLRequest {
+    @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
+    var dataTaskPublisher: URLSession.DataTaskPublisher {
+        URLSession.shared.dataTaskPublisher(for: self)
+    }
+}
+#endif

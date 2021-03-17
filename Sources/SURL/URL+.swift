@@ -15,11 +15,6 @@ public extension URL {
         URLSession.shared.dataTask(with: self)
     }
     
-    @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-    var dataTaskPublisher: URLSession.DataTaskPublisher {
-        URLSession.shared.dataTaskPublisher(for: self)
-    }
-    
     func dataTask(withHandler handler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         URLSession.shared.dataTask(with: self, completionHandler: handler)
     }
@@ -123,12 +118,15 @@ public extension URL {
         
         request.dataTask(withHandler: handler).resume()
     }
-    
 }
 
+#if canImport(Combine)
 // MARK: URL HTTPRequestMethod DataTaskPublishers
 @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
 public extension URL {
+    var dataTaskPublisher: URLSession.DataTaskPublisher {
+        URLSession.shared.dataTaskPublisher(for: self)
+    }
     
     func get() -> URLSession.DataTaskPublisher {
         urlRequest(forHTTPMethod: .GET).dataTaskPublisher
@@ -181,5 +179,5 @@ public extension URL {
         
         return request.dataTaskPublisher
     }
-    
 }
+#endif
